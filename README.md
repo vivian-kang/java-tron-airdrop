@@ -2,7 +2,7 @@
   <br>
   <img width=20% src="https://github.com/tronprotocol/wiki/blob/master/images/java-tron.jpg?raw=true">
   <br>
-  java-tron
+  java-tron 
   <br>
 </h1>
 
@@ -50,50 +50,32 @@
   <a href="#Resources">Resources</a>
 </p>
 
-## What's TRON?
+## Introduction
+This is a demo project for exporting data when node is running. This project is based on java-tron GreatVoyage-v4.4.3(Pythagoras). And added exporting data related codes.
 
-TRON is a project dedicated to building the infrastructure for a truly decentralized Internet.
 
-* Tron Protocol, one of the largest blockchain-based operating systems in the world, offers scalable, high-availability and high-throughput support that underlies all the decentralized applications in the TRON ecosystem.
+## What new code have been added
+1. Add a new http api to set the block height and block timestamp
+   
+   https://github.com/vivian-kang/java-tron-airdrop/blob/main/framework/src/main/java/org/tron/core/services/http/FullNodeHttpApiService.java#L293 
+   https://github.com/vivian-kang/java-tron-airdrop/blob/main/framework/src/main/java/org/tron/core/services/http/ExportAccountServlet.java 
 
-* Tron Virtual Machine (TVM) allows anyone to develop decentralized applications (DAPPs) for themselves or their communities with smart contracts thereby making decentralized crowdfunding and token issuance easier than ever.
 
-TRON enables large-scale development and engagement. With over 2000 transactions per second (TPS), high concurrency, low latency, and massive data transmission. It is ideal for building decentralized entertainment applications. Free features and incentive systems allow developers to create premium app experiences for users.
+2. Add account exporting code in /framework/src/main/java/org/tron/core/db/export/
 
-# Quick Start
-This guide walks the user through the TRON Quickstart (v2.0.0) image setup.
-[TRON Quick Start](./quickstart.md)
 
-# Deploy
-* [Build](./build.md) Please build java-tron after cloning the project
-* [Run](./run.md) Run java-tron
-* [Build & Run by shell script](./shell.md)
-# Deployment
-[Deployment Guide](https://tronprotocol.github.io/documentation-en/developers/deployment/)
- walks the user through how to deploy a FullNode and an SR node.
 
-# Channel
-[Tron Developers & SRs](https://discord.gg/hqKvyAM) is Tron's official Discord channel. Feel free to join this channel if you have any questions.
+## How to do data exporting before airdrop
+1. Set block height and block timestamp through http api: /wallet/exportaccount  
+   For example: http://127.0.0.1:16887/wallet/exportaccount?block_number=950&timestamp=1642153902000
+   
 
-[Core Devs Community](https://t.me/troncoredevscommunity) is the Telegram channel for java-tron community developers. If you want to contribute to java-tron, please join this channel.
+2. After the specified block arrived, or the time is up, the node will export the account data, you can find the exported files on the node directory:
 
-[tronprotocol/allcoredev](https://gitter.im/tronprotocol/allcoredev) is the official Gitter channel for developers.
+   * block_950_all_accounts.csv  : includes all accounts which hold TRX
+   * block_950_normal_accounts.csv : includes all normal accounts which hold TRX
+   * block_950_contract_accounts.csv : includes all contract accounts which hold TRX
+   * block_950_assetissue_accounts.csv : includes all assetIssue accounts which hold TRX
+ 
 
-# Contribution
-If you'd like to contribute to java-tron, please read the following instructions.
-
-- [Contribution](./CONTRIBUTING.md)
-- [Community Developers Incentives Programme](./CONTRIBUTING.md#community-developers-incentives-programme)
-
-# Resources
-* [Medium](https://medium.com/@coredevs) java-tron's official technical articles are published there.
-* [Documentation](https://tronprotocol.github.io/documentation-en/introduction/) java-tron's official technical documentation website.
-* [Test network](http://nileex.io/) A stable test network of TRON contributed by TRON community.
-* [Tronscan](https://tronscan.org/#/) TRON network blockchain browser.
-* [Wallet-cli](https://github.com/tronprotocol/wallet-cli) TRON network wallet using command line.
-* [TIP](https://github.com/tronprotocol/tips) TRON Improvement Proposal (TIP) describes standards for the TRON network.
-* [TP](https://github.com/tronprotocol/tips/tree/master/tp) TRON Protocol (TP) describes standards already implemented in TRON network but not published as a TIP.
-* [White Paper](https://tron.network/resources?lng=&name=1) White paper of TRON network.
-
-# License
-java-tron is released under the [LGPLv3 license](https://github.com/tronprotocol/java-tron/blob/master/LICENSE).
+3. After exporting the data, the node continues to synchronize data from other node 
